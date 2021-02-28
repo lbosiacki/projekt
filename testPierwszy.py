@@ -4,6 +4,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import unittest
 import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # DANE TESTOWE
@@ -79,7 +81,6 @@ class WizzairRegistration(unittest.TestCase):
         driver.find_element_by_name('phoneNumberValidDigits').send_keys(invalid_phone_number)
         # KROK: 8. Wpisz poprawny e-mail
         driver.find_element_by_name('email').send_keys(valid_email)
-        #element = WebDriverWait(driver, 10).until(EC.invisibility_of_element((By.className("input-error__message")))
         # KROK: 9. Wpisz hasło
         driver.find_element_by_name('password').send_keys(valid_password)
         # KROK: 10. Wybierz narodowość
@@ -97,6 +98,10 @@ class WizzairRegistration(unittest.TestCase):
                 country.click()
                 # Nie szukaj dalej
                 break
+
+        WebDriverWait(driver, 20).until(EC.invisibility_of_element_located(
+            (By.XPATH, ("//div[@id='regmodal-scroll-hook-4']//div[@class='input-error']"))))
+        #(By.xpath("//*[@id='some_input'][contains(@style, 'display: block')]")))
         #time.sleep(10)
 
         ### UWAGA! (DOPIERO) TERAZ BĘDZIE TEST !!!! ###
